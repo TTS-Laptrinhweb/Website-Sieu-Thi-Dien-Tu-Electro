@@ -1,4 +1,10 @@
 <?php
+	if (isset($_POST['logout'])) {
+		session_start();
+		session_destroy();
+		header('Location: index.php'); // Redirect to homepage or login page
+		exit();
+	}
     //session_destroy();
     //unset('dangnhap');
     if(isset($_POST['dangnhap_home'])){
@@ -24,11 +30,9 @@
 		$address = $_POST['address'];
 		$email = $_POST['email'];
 		$password = md5($_POST['password']);
-		$giaohang = $_POST['giaohang'];
-			
 
-		$sql_khachhang = mysqli_query($con, "INSERT INTO tbl_khachhang(name,phone,address,email,giaohang,note,password)
-			VALUES ('$name','$phone','$address','$email','$giaohang','$note','$password')");
+		$sql_khachhang = mysqli_query($con, "INSERT INTO tbl_khachhang(name,phone,address,email,password,giaohang,note)
+			VALUES ('$name','$phone','$address','$email','$password',0,'')");
 		$sql_select_khachhang = mysqli_query($con,"SELECT * FROM tbl_khachhang ORDER BY khachhang_id DESC LIMIT 1");
 		$row_khachhang = mysqli_fetch_array($sql_select_khachhang);
 		$_SESSION['dangnhap_home'] = $name;
@@ -55,12 +59,16 @@
 							<a href="index.php?quanly=xemdonhang&khachhang=<?php echo $_SESSION['khachhang_id'];?>" class="text-white">
 								<i class="fas fa-truck mr-2"></i>Xem đơn hàng : <?php echo $_SESSION['dangnhap_home'];?></a>
 						</li>
-						<?php
-							}
-						?>
 						<li class="text-center border-right text-white">
-							<i class="fas fa-phone mr-2"></i> 001 234 5678
+							<form action="" method="post" style="display:inline;">
+								<button type="submit" name="logout" class="btn btn-link" style="color: #f94449;">
+									<i class="fas fa-sign-out-alt mr-2"></i> Đăng xuất
+								</button>
+							</form>
 						</li>
+						<?php
+							} else {
+						?>
 						<li class="text-center border-right text-white">
 							<a href="#" data-toggle="modal" data-target="#dangnhap" class="text-white">
 								<i class="fas fa-sign-in-alt mr-2"></i> Đăng nhập </a>
@@ -69,7 +77,14 @@
 							<a href="#" data-toggle="modal" data-target="#dangky" class="text-white">
 								<i class="fas fa-sign-out-alt mr-2"></i> Đăng ký </a>
 						</li>
+						<?php
+							}
+						?>
+						<li class="text-center border-right text-white">
+							<i class="fas fa-phone mr-2"></i> 001 234 5678
+						</li>
 					</ul>
+
 					<!-- //header lists -->
 				</div>
 			</div>
