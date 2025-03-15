@@ -17,8 +17,8 @@
         $hinhanh_tmp = $_FILES['hinhanh']['tmp_name'];
 
         $sql_insert_product = mysqli_query($con,"INSERT INTO tbl_sanpham(sanpham_name,sanpham_chitiet,sanpham_mota,
-        sanpham_gia,sanpham_giakhuyenmai,sanpham_soluong,sanpham_image,category_id)
-        VALUES ('$tensanpham','$chitiet','$mota','$gia','$giakhuyenmai','$soluong','$hinhanh','$danhmuc')");
+        sanpham_gia,sanpham_giakhuyenmai,sanpham_active,sanpham_hot,sanpham_soluong,sanpham_image,category_id)
+        VALUES ('$tensanpham','$chitiet','$mota','$gia','$giakhuyenmai',1,0,'$soluong','$hinhanh','$danhmuc')");
 
         move_uploaded_file($hinhanh_tmp,$path.$hinhanh);
     }else if(isset($_POST['suasanpham'])){
