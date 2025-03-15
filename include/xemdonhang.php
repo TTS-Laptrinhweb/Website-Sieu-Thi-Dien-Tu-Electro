@@ -39,8 +39,10 @@
                                 } else {
                                     $id_khachhang = '';
                                 }
-                                $sql_select = mysqli_query($con, "SELECT * FROM tbl_giaodich
-                                    WHERE khachhang_id = '$id_khachhang'
+                                $sql_select = mysqli_query($con, "SELECT magiaodich, MAX(ngaythang) AS ngaythang, COUNT(*) AS total_items, 
+                                    MAX(tinhtrangdon) AS tinhtrangdon, MAX(huydon) AS huydon 
+                                    FROM tbl_giaodich 
+                                    WHERE khachhang_id = '$id_khachhang' 
                                     GROUP BY magiaodich");
                                 ?>
                                 <table class="table table-bordered">
@@ -55,7 +57,7 @@
                                     <?php
                                     $i = 0;
                                     while ($row_donhang = mysqli_fetch_array($sql_select)) {
-                                        $i++
+                                        $i++;
                                     ?>
                                         <tr>
                                             <td><?php echo $i; ?></td>
@@ -63,25 +65,29 @@
                                             <td><?php echo $row_donhang['ngaythang']; ?></td>
                                             <td><a href="index.php?quanly=xemdonhang&khachhang=<?php echo $_SESSION['khachhang_id']?>&magiaodich=<?php echo $row_donhang['magiaodich'] ?>">Xem chi tiết đơn hàng</a></td>
                                             <td><?php
-                                                if($row_donhang['tinhtrangdon'] == 0){
-                                                    echo 'Đã đặt hàng';
-                                                }else{
-                                                    echo 'Đã xử lý và đang giao hàng';
+                                                if (isset($row_donhang['tinhtrangdon'])) {
+                                                    echo $row_donhang['tinhtrangdon'] == 0 ? 'Đã đặt hàng' : 'Đã xử lý và đang giao hàng';
+                                                } else {
+                                                    echo 'Tình trạng không xác định';
                                                 }
                                             ?></td>
                                             <td>
                                                 <?php
-                                                    if($row_donhang['huydon'] == 0){
+                                                if (isset($row_donhang['huydon'])) {
+                                                    if ($row_donhang['huydon'] == 0) {
                                                 ?>    
-                                            <a href="index.php?quanly=xemdonhang&khachhang=<?php echo $_SESSION['khachhang_id']?>&magiaodich=<?php echo $row_donhang['magiaodich'] ?>&huydon=1">Hủy đơn</a>
+                                                        <a href="index.php?quanly=xemdonhang&khachhang=<?php echo $_SESSION['khachhang_id']?>&magiaodich=<?php echo $row_donhang['magiaodich'] ?>&huydon=1">Hủy đơn</a>
                                                 <?php
-                                                    }else if($row_donhang['huydon'] == 1){
+                                                    } else if ($row_donhang['huydon'] == 1) {
                                                 ?>
                                                     <p>Đang chờ hủy</p>
                                                 <?php
-                                                    }else{
+                                                    } else {
                                                         echo "Đã hủy đơn";
                                                     }
+                                                } else {
+                                                    echo 'Trạng thái hủy không xác định';
+                                                }
                                                 ?>
                                             </td>
                                         </tr>
