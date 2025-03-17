@@ -47,12 +47,14 @@ if (isset($_POST['dangnhap'])) {
         
                 <input type="text" class="form-control" name="username" placeholder="Username" /></br>
                 <span class="spin"></span>
+                 <p>Username admin:admin</p>
             </div>
 
             <div class="input">
                 
                 <input type="password" class="form-control" name="password" placeholder="Password" /></br>
                 <span class="spin"></span>
+                <p>Password admin:123456</p>
             </div>
 
             <div class="button login">
